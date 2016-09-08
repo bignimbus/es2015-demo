@@ -28,12 +28,13 @@ const defineRxProperties = (entries, obj) => {
 
 const newFrozenRx = rx => new Immutable(rx);
 
+export const defineRxPropertiesWithMap = obj => defineRxProperties([...PROPS.entries()], obj);
+
 // returns a new object consisting only of properties found
 // in the PROPS map keys. Each value is run through a
 // transform function specified in the corresponding
 // PROPS map value
 export const prescriptionFactory = (obj = {}) => {
-  let entries = [...PROPS.entries()],
-    whitelistedProps = defineRxProperties(entries, obj);
+  let whitelistedProps = defineRxPropertiesWithMap(obj);
   return newFrozenRx(whitelistedProps);
 };

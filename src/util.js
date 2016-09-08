@@ -40,4 +40,6 @@ const coerceAndCallClosest = (arr, num) => compose(
 export const coerceNumberAndCallClosest = (arr, num) => coerceAndCallClosest(arr, num);
 
 // basically just a wrapper for `.toString()` right now
-export const coerceString = () => str => str.toString();
+export const coerceString = () => str => {
+  return str != null ? str.toString() : null;
+};
