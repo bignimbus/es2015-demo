@@ -18,12 +18,11 @@ const normalizedRxProperty = (transform, val) => {
 // to get an object declaring the value and metadata
 // of the object property matching the map key.
 const defineRxProperties = (entries, obj) => {
-  var foo = entries.reduce((definedProps, prop) => {
+  return entries.reduce((definedProps, prop) => {
     let [key, transform] = [...prop];
     Object.defineProperty(definedProps, key, normalizedRxProperty(transform, obj[key]));
     return definedProps;
   }, {});
-  return foo;
 }
 
 const newFrozenRx = rx => new Immutable(rx);
