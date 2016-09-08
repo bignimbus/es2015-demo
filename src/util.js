@@ -31,8 +31,8 @@ const callClosestIfNotNull = (arr, num) => {
 
 // we are using compose here.
 const coerceAndCallClosest = (arr, num) => compose(
-    ensureNumber,
-    callClosestIfNotNull.bind(null, arr)
+    callClosestIfNotNull.bind(null, arr),
+    ensureNumber
   )(num);
 
 // and finally, we create a function

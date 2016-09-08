@@ -1,48 +1,51 @@
 'use strict';
 
+import './xcon';
 import { prescriptionFactory } from './prescription-factory';
 import { Prescription } from './prescription-class';
 
-const getPrescription = obj => prescriptionFactory(obj);
+['factory', 'class'].forEach(fn => {
+  console.log('ᕦ( ~ ◔ ᴥ ◔ ~ )੭━☆ﾟ.*･｡ﾟ'+ `METHOD: ${fn}`);
+  let getPrescription = obj => {
+    return fn === 'factory' ? prescriptionFactory(obj) : new Prescription(obj);
+  };
 
-console.log('***factory');
-let rx = getPrescription({
-  left_sph: 1,
-  right_sph: 2
+  let rx = getPrescription({
+    left_sph: 1,
+    right_sph: 2
+  });
+
+  console.expect(rx.left_sph).toEqual(1);
+  console.expect(rx.right_sph).toEqual(2);
+
+  try {
+    rx.left_sph = 2;
+  } catch (e) {
+    console.expect(e).toBeDefined();
+    console.expect(rx.left_sph).toEqual(1);
+  }
+
+  let newRx = rx.cloneAndMerge({
+    left_sph: 2
+  });
+
+  console.expect(rx.left_sph).not.toEqual(newRx.left_sph);
+  console.expect(rx.right_sph).toEqual(newRx.right_sph);
+
+  let typedRx = getPrescription({
+    left_sph: '1',
+    right_sph: '2'
+  });
+
+  console.expect(typedRx.left_sph).toEqual(1);
+  console.expect(typedRx.right_sph).toEqual(2);
+
+  let riskyRx = getPrescription({
+    left_sph: 'foo',
+    right_dominance: {}
+  });
+
+  console.expect(riskyRx.left_sph).toEqual(null);
+  console.expect(riskyRx.right_dominance).toEqual('[object Object]');
 });
-
-console.log(rx.left_sph);
-console.log(rx.right_sph);
-
-try {
-  rx.left_sph = 2;
-} catch (e) {
-  console.log('nope');
-}
-
-console.log('ok!');
-let newRx = rx.cloneAndMerge({
-  left_sph: 2
-});
-
-console.log(rx.left_sph);
-console.log(rx.right_sph);
-console.log(newRx.left_sph);
-console.log(newRx.right_sph);
-
-let typedRx = getPrescription({
-  left_sph: '1',
-  right_sph: '2'
-});
-
-console.log(typedRx.left_sph);
-console.log(typedRx.right_sph);
-
-let riskyRx = getPrescription({
-  left_sph: 'foo',
-  right_dominance: {}
-});
-
-console.log(riskyRx.left_sph);
-console.log(riskyRx.right_dominance);
 
