@@ -1,18 +1,10 @@
 'use strict';
 
-import { closest } from './util';
-
-const EYES = ['left', 'right'];
-
-const coerceNumberAndCallClosest = (arr, num) => {
-  num = parseFloat(num, 10);
-  if (Number.isNaN(num)) return null;
-  return closest(arr, num);
-};
+import { coerceNumberAndCallClosest, coerceString } from './util';
 
 const coerceNumberToRange = (arr = [0, 1, 2]) => coerceNumberAndCallClosest.bind(null, arr);
 
-const coerceString = () => str => str.toString();
+const EYES = ['left', 'right'];
 
 const RX_PROPS_MAP = new Map([
   ['sph', coerceNumberToRange()],
