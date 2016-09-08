@@ -4,7 +4,10 @@
 
 // yo dawg, I heard you like functions.
 // Compose is a function that combines other functions so
-// you can make more funcitons out of your functions
+// you can make more funcitons out of your functions.
+// Array.prototype.reduce and reduceRight are both intended
+// to "reduce" an array to one value.  In this case, we are
+// "reducing" an array of functions into one function.
 const compose = (...fns) => initial => fns.reduceRight((val, fn) => fn(val), initial);
 
 // rewritten from https://github.com/Opternative/opternative/blob/dev/app/assets/javascripts/common.js#L136-L148
@@ -27,14 +30,14 @@ const callClosestIfNotNull = (arr, num) => {
 };
 
 // we are using compose here.
-const coerceAndCallClosest = (arr) => compose(
+const coerceAndCallClosest = (arr, num) => compose(
     ensureNumber,
     callClosestIfNotNull.bind(null, arr)
-  );
+  )(num);
 
 // and finally, we create a function
 // that invokes the composed function with everything it needs
-export const coerceNumberAndCallClosest = (arr, num) => coerceAndCallClosest(arr)(num);
+export const coerceNumberAndCallClosest = (arr, num) => coerceAndCallClosest(arr, num);
 
 // basically just a wrapper for `.toString()` right now
 export const coerceString = () => str => str.toString();
